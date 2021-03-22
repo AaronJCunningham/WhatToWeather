@@ -2,8 +2,27 @@ import React, { Component } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Weather from "./components/Weather";
 import { API_KEY } from "./utils/ApiKey";
+import { Provider } from "react-redux";
 
-export default class App extends Component {
+import { createStore } from "redux";
+
+function todos(state = [], action) {
+  switch (action.type) {
+    case "ADD_TODO":
+      return state.concat([action.text]);
+    default:
+      return state;
+  }
+}
+
+const store = createStore(todos, ["Use Redux"]);
+
+store.dispatch({
+  type: "ADD_TODO",
+  text: "Read the docs",
+});
+
+class App extends Component {
   state = {
     isLoading: true,
     temperature: 0,
@@ -12,6 +31,7 @@ export default class App extends Component {
   };
 
   componentDidMount() {
+    console.log("mounting");
     navigator.geolocation.getCurrentPosition(
       (position) => {
         this.fetchWeather(position.coords.latitude, position.coords.longitude);
@@ -20,6 +40,11 @@ export default class App extends Component {
         this.setState({
           error: "Error Getting Weather Conditions",
         });
+      },
+      {
+        maximumAge: 3000,
+        timeout: 2000,
+        enableHighAccuracy: true,
       }
     );
   }
@@ -41,19 +66,23 @@ export default class App extends Component {
   render() {
     const { isLoading } = this.state;
     return (
-      <View style={styles.container}>
-        {isLoading ? (
-          <Text>Fetching The Weather</Text>
-        ) : (
-          <Weather
-            weather={this.state.weatherCondition}
-            temperature={this.state.temperature}
-          />
-        )}
-      </View>
+      <Provider store={store}>
+        <View style={styles.container}>
+          {isLoading ? (
+            <Text>Fetching The Weather</Text>
+          ) : (
+            <Weather
+              weather={this.state.weatherCondition}
+              temperature={this.state.temperature}
+            />
+          )}
+        </View>
+      </Provider>
     );
   }
 }
+
+export default App;
 
 const styles = StyleSheet.create({
   container: {
