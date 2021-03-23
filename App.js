@@ -1,85 +1,18 @@
-import React, { Component } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import Weather from "./components/Weather";
-import { API_KEY } from "./utils/ApiKey";
+import React from "react";
+import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
-import { reducer } from "./reducers";
+import rootReducer from "./reducers";
+import Counter from "./components/Counter";
+import ReduxThunk from "redux-thunk";
 
-import { createStore } from "redux";
+const store = createStore(rootReducer, {}, applyMiddleware(ReduxThunk));
 
-const store = createStore(reducer, ["Use Redux"]);
-
-store.dispatch({
-  type: "ADD_TODO",
-  text: "Read the docs",
-});
-
-class App extends Component {
-  state = {
-    isLoading: true,
-    temperature: 0,
-    weatherCondition: null,
-    error: null,
-  };
-
-  componentDidMount() {
-    console.log("mounting");
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        this.fetchWeather(position.coords.latitude, position.coords.longitude);
-      },
-      (error) => {
-        this.setState({
-          error: "Error Getting Weather Conditions",
-        });
-      },
-      {
-        maximumAge: 3000,
-        timeout: 2000,
-        enableHighAccuracy: true,
-      }
-    );
-  }
-
-  fetchWeather(lat = 25, lon = 25) {
-    fetch(
-      `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&APPID=${API_KEY}&units=metric`
-    )
-      .then((res) => res.json())
-      .then((json) => {
-        this.setState({
-          temperature: json.main.temp,
-          weatherCondition: json.weather[0].main,
-          isLoading: false,
-        });
-      });
-  }
-
-  render() {
-    const { isLoading } = this.state;
-    return (
-      <Provider store={store}>
-        <View style={styles.container}>
-          {isLoading ? (
-            <Text>Fetching The Weather</Text>
-          ) : (
-            <Weather
-              weather={this.state.weatherCondition}
-              temperature={this.state.temperature}
-            />
-          )}
-        </View>
-      </Provider>
-    );
-  }
-}
+const App = () => {
+  return (
+    <Provider store={store}>
+      <Counter />
+    </Provider>
+  );
+};
 
 export default App;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});

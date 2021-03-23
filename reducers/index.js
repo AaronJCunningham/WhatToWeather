@@ -1,8 +1,10 @@
-export const reducer = (state = [], action) => {
-  switch (action.type) {
-    case "ADD_TODO":
-      return state.concat([action.text]);
-    default:
-      return state;
-  }
-};
+import { combineReducers } from "redux";
+import counterReducer from "./counterReducer";
+import fetchPosts from "./postsReducer";
+
+const rootReducer = combineReducers({
+  count: counterReducer,
+  posts: fetchPosts,
+});
+
+export default rootReducer;
