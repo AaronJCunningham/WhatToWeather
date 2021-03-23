@@ -3,19 +3,11 @@ import { StyleSheet, Text, View } from "react-native";
 import Weather from "./components/Weather";
 import { API_KEY } from "./utils/ApiKey";
 import { Provider } from "react-redux";
+import { reducer } from "./reducers";
 
 import { createStore } from "redux";
 
-function todos(state = [], action) {
-  switch (action.type) {
-    case "ADD_TODO":
-      return state.concat([action.text]);
-    default:
-      return state;
-  }
-}
-
-const store = createStore(todos, ["Use Redux"]);
+const store = createStore(reducer, ["Use Redux"]);
 
 store.dispatch({
   type: "ADD_TODO",
