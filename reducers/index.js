@@ -1,10 +1,12 @@
 import { combineReducers } from "redux";
 import counterReducer from "./counterReducer";
-import fetchPosts from "./postsReducer";
+import weatherReducer from "./weatherReducer";
+import locationReducer from "./locationReducer";
 
 const rootReducer = combineReducers({
   count: counterReducer,
-  posts: fetchPosts,
+  weather: weatherReducer,
+  location: locationReducer,
 });
 
 export default rootReducer;

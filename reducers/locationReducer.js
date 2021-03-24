@@ -9,13 +9,13 @@ const initialeState = [
   },
 ];
 
-const postsReducer = (state = initialeState, action) => {
+const locationReducer = (state = initialeState, action) => {
   switch (action.type) {
-    case "FETCH_POSTS":
+    case "FETCH_LOCATION":
       return action.payload;
     default:
       return state;
   }
 };
 
-export default postsReducer;
+export default locationReducer;

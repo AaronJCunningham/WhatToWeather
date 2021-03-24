@@ -1,10 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { increment, fetchPosts } from "../actions";
+import { increment, fetchWeather, fetchLocation } from "../actions";
 import { connect } from "react-redux";
 import {} from "react-native";
 
-const Counter = ({ count, posts, increment, fetchPosts }) => {
+const Counter = ({
+  count,
+  weather,
+  lat,
+  lng,
+  increment,
+  fetchWeather,
+  fetchLocation,
+}) => {
+  useEffect(() => {
+    fetchLocation();
+  }, []);
+
+  useEffect(() => {}, []);
+
   return (
     <View style={styles.container}>
       <View style={styles.title}>
@@ -12,23 +26,34 @@ const Counter = ({ count, posts, increment, fetchPosts }) => {
         <TouchableOpacity onPress={increment}>
           <Text>Increment</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={fetchPosts}>
+        <TouchableOpacity onPress={fetchWeather}>
           <Text>fetchPosts</Text>
         </TouchableOpacity>
-        {console.log(posts)}
+        {!weather.data ? null : <Text>{weather.data.weather[0].main}</Text>}
+        <TouchableOpacity onPress={fetchLocation}>
+          <Text>fetchLocation</Text>
+        </TouchableOpacity>
+        <Text>Latitude {lat}</Text>
+        <Text>longtitude {lng}</Text>
       </View>
     </View>
   );
 };
 
 const mapStateToProps = (state) => {
-  return { count: state.count, posts: state.posts.data };
+  return {
+    count: state.count,
+    weather: state.weather,
+    lat: state.location.latitude,
+    lng: state.location.longitude,
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     increment: () => dispatch(increment()),
-    fetchPosts: () => dispatch(fetchPosts()),
+    fetchWeather: () => dispatch(fetchWeather()),
+    fetchLocation: () => dispatch(fetchLocation()),
   };
 };
 
