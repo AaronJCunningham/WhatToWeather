@@ -1,3 +1,5 @@
+import { FETCH_WEATHER } from "../constants";
+
 const initialeState = [
   {
     userId: 1,
@@ -11,7 +13,7 @@ const initialeState = [
 
 const weatherReducer = (state = initialeState, action) => {
   switch (action.type) {
-    case "FETCH_WEATHER":
+    case FETCH_WEATHER:
       return action.payload;
     default:
       return state;

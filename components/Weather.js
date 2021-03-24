@@ -4,13 +4,7 @@ import { increment, fetchWeather, fetchLocation } from "../actions";
 import { connect } from "react-redux";
 import {} from "react-native";
 
-const Weather = ({
-  weather,
-  lat,
-
-  fetchWeather,
-  fetchLocation,
-}) => {
+const Weather = ({ weather, lat, fetchWeather, fetchLocation }) => {
   useEffect(() => {
     fetchLocation();
   }, []);
@@ -35,7 +29,6 @@ const Weather = ({
 
 const mapStateToProps = (state) => {
   return {
-    count: state.count,
     weather: state.weather,
     lat: state.location.latitude,
     lng: state.location.longitude,
@@ -44,7 +37,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    increment: () => dispatch(increment()),
     fetchWeather: () => dispatch(fetchWeather()),
     fetchLocation: () => dispatch(fetchLocation()),
   };

@@ -1,11 +1,6 @@
 import axios from "axios";
 import { API_KEY } from "../keys/APIKey";
-
-export const increment = () => {
-  return {
-    type: "INCREMENT",
-  };
-};
+import { FETCH_LOCATION, FETCH_WEATHER } from "../constants";
 
 export const fetchWeather = () => {
   return async function (dispatch, getState) {
@@ -16,7 +11,7 @@ export const fetchWeather = () => {
     const response = await axios.get(
       `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&APPID=${API_KEY}&units=metric`
     );
-    dispatch({ type: "FETCH_WEATHER", payload: response });
+    dispatch({ type: FETCH_WEATHER, payload: response });
     console.log("weather " + response.data.weather[0].main);
   };
 };
@@ -27,7 +22,7 @@ export const fetchLocation = () => {
     geolocation.getCurrentPosition((position) => {
       console.log(position.coords);
       dispatch({
-        type: "FETCH_LOCATION",
+        type: FETCH_LOCATION,
         payload: position.coords,
       });
     });
