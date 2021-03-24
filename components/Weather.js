@@ -1,15 +1,13 @@
 import React, { useEffect } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { increment, fetchWeather, fetchLocation } from "../actions";
 import { connect } from "react-redux";
 import {} from "react-native";
 
-const Counter = ({
-  count,
+const Weather = ({
   weather,
   lat,
-  lng,
-  increment,
+
   fetchWeather,
   fetchLocation,
 }) => {
@@ -17,24 +15,19 @@ const Counter = ({
     fetchLocation();
   }, []);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    lat ? fetchWeather() : null;
+  }, [lat]);
 
   return (
     <View style={styles.container}>
       <View style={styles.title}>
-        <Text>This is the Counter {count}</Text>
-        <TouchableOpacity onPress={increment}>
-          <Text>Increment</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={fetchWeather}>
-          <Text>fetchPosts</Text>
-        </TouchableOpacity>
-        {!weather.data ? null : <Text>{weather.data.weather[0].main}</Text>}
-        <TouchableOpacity onPress={fetchLocation}>
-          <Text>fetchLocation</Text>
-        </TouchableOpacity>
-        <Text>Latitude {lat}</Text>
-        <Text>longtitude {lng}</Text>
+        {!weather.data ? null : (
+          <Text>The Sky is {weather.data.weather[0].main}</Text>
+        )}
+        {!weather.data ? null : (
+          <Text>The Temperature is {weather.data.main.temp}</Text>
+        )}
       </View>
     </View>
   );
@@ -57,7 +50,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Counter);
+export default connect(mapStateToProps, mapDispatchToProps)(Weather);
 
 const styles = StyleSheet.create({
   container: {
@@ -68,13 +61,10 @@ const styles = StyleSheet.create({
   title: {
     marginTop: 16,
     paddingVertical: 8,
-    borderWidth: 4,
-    borderColor: "#20232a",
-    borderRadius: 6,
-    backgroundColor: "#61dafb",
+    alignItems: "center",
     color: "#20232a",
     textAlign: "center",
-    fontSize: 30,
+    fontSize: 80,
     fontWeight: "bold",
   },
 });

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { API_KEY } from "../keys/APIKey";
 
 export const increment = () => {
   return {
@@ -11,11 +12,9 @@ export const fetchWeather = () => {
     const location = getState().location;
     const lat = Math.trunc(location.latitude) || 0;
     const lng = Math.trunc(location.longitude) || 0;
-    console.log(lat);
-    console.log(lng);
 
     const response = await axios.get(
-      `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&APPID=cf46012ab2c09f0441384cc2ff9e508c&units=metric`
+      `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&APPID=${API_KEY}&units=metric`
     );
     dispatch({ type: "FETCH_WEATHER", payload: response });
     console.log("weather " + response.data.weather[0].main);
