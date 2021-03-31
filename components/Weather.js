@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { increment, fetchWeather, fetchLocation } from "../actions";
 import { connect } from "react-redux";
-import {} from "react-native";
+
+import { fetchWeather, fetchLocation } from "../actions";
 
 const Weather = ({ weather, lat, fetchWeather, fetchLocation }) => {
   useEffect(() => {
@@ -14,13 +14,17 @@ const Weather = ({ weather, lat, fetchWeather, fetchLocation }) => {
   }, [lat]);
 
   return (
-    <View style={styles.container}>
-      <View style={styles.title}>
+    <View style={styles.weatherContainer}>
+      <View>
         {!weather.data ? null : (
-          <Text>The Sky is {weather.data.weather[0].main}</Text>
+          <Text style={styles.title}>
+            The Sky is {weather.data.list[0].weather[0].main}
+          </Text>
         )}
         {!weather.data ? null : (
-          <Text>The Temperature is {weather.data.main.temp}</Text>
+          <Text style={styles.title}>
+            The Temperature: {weather.data.list[0].main.temp}
+          </Text>
         )}
       </View>
     </View>
@@ -45,10 +49,8 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(mapStateToProps, mapDispatchToProps)(Weather);
 
 const styles = StyleSheet.create({
-  container: {
+  weatherContainer: {
     flex: 1,
-    padding: 24,
-    backgroundColor: "#eaeaea",
   },
   title: {
     marginTop: 16,
@@ -56,7 +58,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     color: "#20232a",
     textAlign: "center",
-    fontSize: 80,
+    fontSize: 24,
     fontWeight: "bold",
   },
 });

@@ -9,10 +9,10 @@ export const fetchWeather = () => {
     const lng = Math.trunc(location.longitude) || 0;
 
     const response = await axios.get(
-      `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&APPID=${API_KEY}&units=metric`
+      `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lng}&APPID=${API_KEY}&units=metric`
     );
     dispatch({ type: FETCH_WEATHER, payload: response });
-    console.log("weather " + response.data.weather[0].main);
+    console.log("weather " + response.data.list[0].main.temp);
   };
 };
 
