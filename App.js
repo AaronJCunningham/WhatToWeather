@@ -2,8 +2,9 @@ import "react-native-gesture-handler";
 import React from "react";
 import { Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStore, applyMiddleware } from "redux";
 import { createStackNavigator } from "@react-navigation/stack";
+import { createStore, applyMiddleware } from "redux";
+
 import { Provider } from "react-redux";
 import ReduxThunk from "redux-thunk";
 
