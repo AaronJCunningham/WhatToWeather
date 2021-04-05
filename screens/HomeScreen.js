@@ -11,10 +11,11 @@ const HomeScreen = ({ navigation }) => {
       <DateDisplay />
       <Weather />
       <ClothingDisplay />
-      <TouchableOpacity
-        onPress={() => navigation.navigate("Profile", { name: "Jane" })}
-      >
+      <TouchableOpacity onPress={() => navigation.navigate("Forecast")}>
         <Text>Later</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate("About")}>
+        <Text>About</Text>
       </TouchableOpacity>
     </View>
   );
